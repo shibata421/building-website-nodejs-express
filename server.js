@@ -1,5 +1,6 @@
 // modules required
 const express = require('express');
+const cookieSession = require('cookie-session');
 const path = require('path');
 const routes = require('./routes');
 const FeedbackService = require('./services/FeedbackService');
@@ -13,6 +14,19 @@ const app = express();
 
 // express applications usually listen on port 3000
 const port = 3000;
+
+// this makes express accept cookies that are passed through a reverse proxy
+app.set('trust proxy', 1);
+
+app.use(
+    /* HTML is stateless, so we need a sessions to persist data from 
+    request to request
+    */
+  cookieSession({
+    name: 'session',
+    keys: ['fdahfdahaeuor', 'hfaufhajkfdhauifyuda'], // random keys
+  })
+);
 
 // ejs doesn't need to be required. express finds it after you config
 app.set('view engine', 'ejs'); // view engine is the config we want to change
