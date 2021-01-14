@@ -32,8 +32,26 @@ app.use(
 app.set('view engine', 'ejs'); // view engine is the config we want to change
 app.set('views', path.join(__dirname, './views'));
 
+/* this is a way to create global variables in express, during the start of the application
+ that will be available throughout its lifecycle
+ */
+app.locals.siteName = 'ROUX Meetups';
+
 // This is a middleware that allows us to use the static folder content
 app.use(express.static(path.join(__dirname, './static')));
+
+app.use(async (request, response, next) =>{
+  try {
+    // this is another way to create global variables in express
+    const names = await speakersService.getNames();
+    response.locals.speakerNames = names;
+    console.log(response.locals);
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+})
+
 app.use(
   '/',
   routes({
