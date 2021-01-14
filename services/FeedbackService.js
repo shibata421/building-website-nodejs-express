@@ -10,7 +10,7 @@ const writeFile = util.promisify(fs.writeFile);
 class FeedbackService {
   /**
    * Constructor
-   * @param {*} datafile Path to a JSOn file that contains the feedback data
+   * @param {*} datafile Path to a JSON file that contains the feedback data
    */
   constructor(datafile) {
     this.datafile = datafile;
