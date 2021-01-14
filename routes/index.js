@@ -7,17 +7,20 @@ const router = express.Router();
 
 module.exports = (params) => {
   const { speakersService } = params;
-  
+
   router.get('/', async (request, response) => {
     const topSpeakers = await speakersService.getList();
-    response.locals.topSpeakers = topSpeakers;
-    
+
     /* now, it'll use ejs to render the index page. 
     This code says to ejs to find index.ejs inside layout
     The object contains local variables that will be available 
     to the template
     */
-    response.render('layout', { pageTitle: 'Welcome', template: 'index' });
+    response.render('layout', {
+      pageTitle: 'Welcome',
+      template: 'index',
+      topSpeakers,
+    });
   });
 
   router.use('/speakers', speakersRoute(params));
