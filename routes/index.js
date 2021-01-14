@@ -8,11 +8,11 @@ const router = express.Router();
 module.exports = (params) => {
   router.get('/', (request, response) => {
     /* now, it'll use ejs to render the index page. 
-    This code says to ejs to find index.ejs inside views/pages
+    This code says to ejs to find index.ejs inside layout
     The object contains local variables that will be available 
     to the template
     */
-    response.render('pages/index', { pageTitle: 'Welcome' });
+    response.render('layout', { pageTitle: 'Welcome', template: 'index' });
   });
 
   router.use('/speakers', speakersRoute(params));
