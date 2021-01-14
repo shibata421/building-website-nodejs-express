@@ -8,6 +8,10 @@ const app = express();
 // express applications usually listen on port 3000
 const port = 3000;
 
+// ejs doenst need to be required. express finds it after you config
+app.set('view engine', 'ejs'); // view engine is the config we want to change
+app.set('views', path.join(__dirname, './views'))
+
 // This is a middleware that allows us to use the static folder content
 app.use(express.static(path.join(__dirname, './static')));
 
