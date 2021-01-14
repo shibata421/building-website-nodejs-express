@@ -45,7 +45,6 @@ app.use(async (request, response, next) =>{
     // this is another way to create global variables in express
     const names = await speakersService.getNames();
     response.locals.speakerNames = names;
-    console.log(response.locals);
     return next();
   } catch (err) {
     return next(err);
