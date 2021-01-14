@@ -1,4 +1,6 @@
 const express = require('express');
+const speakersRoute = require('./speakers');
+const feedbackRoute = require('./feedback');
 
 // express.Router allows the application to listen to specific routes
 const router = express.Router();
@@ -12,6 +14,10 @@ module.exports = () => {
     */
     response.render('pages/index', { pageTitle: 'Welcome' });
   });
+
+  router.use('/speakers', speakersRoute());
+  router.use('/feedback', feedbackRoute());
+  
   return router;
 };
 
