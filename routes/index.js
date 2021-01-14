@@ -5,7 +5,7 @@ const feedbackRoute = require('./feedback');
 // express.Router allows the application to listen to specific routes
 const router = express.Router();
 
-module.exports = () => {
+module.exports = (params) => {
   router.get('/', (request, response) => {
     /* now, it'll use ejs to render the index page. 
     This code says to ejs to find index.ejs inside views/pages
@@ -15,9 +15,9 @@ module.exports = () => {
     response.render('pages/index', { pageTitle: 'Welcome' });
   });
 
-  router.use('/speakers', speakersRoute());
-  router.use('/feedback', feedbackRoute());
-  
+  router.use('/speakers', speakersRoute(params));
+  router.use('/feedback', feedbackRoute(params));
+
   return router;
 };
 
