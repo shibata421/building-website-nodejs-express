@@ -1,12 +1,12 @@
 // modules required
 const express = require('express');
 const cookieSession = require('cookie-session');
+const bodyParser = require('body-parser');
 const createError = require('http-errors');
 const path = require('path');
 const routes = require('./routes');
 const FeedbackService = require('./services/FeedbackService');
 const SpeakersService = require('./services/SpeakerService');
-const { create } = require('domain');
 
 const feedbackService = new FeedbackService('./data/feedback.json');
 const speakersService = new SpeakersService('./data/speakers.json');
@@ -29,6 +29,8 @@ app.use(
     keys: ['fdahfdahaeuor', 'hfaufhajkfdhauifyuda'], // random keys
   })
 );
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // ejs doesn't need to be required. express finds it after you config
 app.set('view engine', 'ejs'); // view engine is the config we want to change
@@ -75,7 +77,7 @@ app.use((request, response, next) => next(createError(404, 'File not found')));
 
 app.use((err, request, response, next) => {
   response.locals.message = err.message;
-  console.error(err)
+  console.error(err);
   const status = err.status || 500;
   response.locals.status = status;
   response.status(status);
