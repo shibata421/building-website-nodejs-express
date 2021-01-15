@@ -5,8 +5,12 @@ const router = express.Router();
 module.exports = ({ feedbackService }) => {
   router.get('/', async (request, response, next) => {
     try {
-      const feedback = await feedbackService.getList();
-      return response.json(feedback);
+      const feedbacks = await feedbackService.getList();
+      return response.render('layout', {
+        pageTitle:'Feedback',
+        template: 'feedback',
+        feedbacks
+      })
     } catch (error) {
       return next(error);
     }
