@@ -26,7 +26,7 @@ class SpeakerService {
 
     // We are using map() to transform the array we get into another one
     return data.map((speaker) => {
-      throw new Error('Something did throw')
+      // throw new Error('Something did throw')
       return { name: speaker.name, shortname: speaker.shortname }
     });
   }

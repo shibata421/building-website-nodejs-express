@@ -1,10 +1,12 @@
 // modules required
 const express = require('express');
 const cookieSession = require('cookie-session');
+const createError = require('http-errors');
 const path = require('path');
 const routes = require('./routes');
 const FeedbackService = require('./services/FeedbackService');
 const SpeakersService = require('./services/SpeakerService');
+const { create } = require('domain');
 
 const feedbackService = new FeedbackService('./data/feedback.json');
 const speakersService = new SpeakersService('./data/speakers.json');
@@ -19,7 +21,7 @@ const port = 3000;
 app.set('trust proxy', 1);
 
 app.use(
-    /* HTML is stateless, so we need a sessions to persist data from 
+  /* HTML is stateless, so we need a sessions to persist data from 
     request to request
     */
   cookieSession({
@@ -42,14 +44,14 @@ app.use(express.static(path.join(__dirname, './static')));
 
 // app.get('/throw', (request, response, next) => {
 //   setTimeout(() => {
-//     /* throwing an error from an assyncronous function will break the 
+//     /* throwing an error from an assyncronous function will break the
 //       application
 //     */
 //     return next(new Error('something did throw'))
 //   }, 500);
 // })
 
-app.use(async (request, response, next) =>{
+app.use(async (request, response, next) => {
   try {
     // this is another way to create global variables in express
     const names = await speakersService.getNames();
@@ -58,7 +60,7 @@ app.use(async (request, response, next) =>{
   } catch (err) {
     return next(err);
   }
-})
+});
 
 app.use(
   '/',
@@ -67,6 +69,18 @@ app.use(
     speakersService,
   })
 );
+
+// This function creates an error that will consumed in the next
+app.use((request, response, next) => next(createError(404, 'File not found')));
+
+app.use((err, request, response, next) => {
+  response.locals.message = err.message;
+  console.error(err)
+  const status = err.status || 500;
+  response.locals.status = status;
+  response.status(status);
+  response.render('error');
+});
 
 app.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
