@@ -10,6 +10,7 @@ module.exports = (params) => {
 
   router.get('/', async (request, response) => {
     const topSpeakers = await speakersService.getList();
+    const artworks = await speakersService.getAllArtwork();
 
     /* now, it'll use ejs to render the index page. 
     This code says to ejs to find index.ejs inside layout
@@ -20,6 +21,7 @@ module.exports = (params) => {
       pageTitle: 'Welcome',
       template: 'index',
       topSpeakers,
+      artworks
     });
   });
 

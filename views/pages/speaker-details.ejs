@@ -2,12 +2,16 @@
   <div class="row">
     <div class="col-md-8">
       <article class="speakerslist maincontent">
-        <h1 class="speakerslist-title"><%=speaker.title%></h1>
+        <h1 class="speakerslist-title">
+          <%=speaker.title%>
+        </h1>
+
         <div class="speakerslist-name">with
           <a href="/speakers/<%=speaker.shortname%>.html">
             <%=speaker.name%>
           </a>
         </div>
+        
         <p class="speakerslist-info mt-2"> 
           <a href="/speakers/<%=speaker.shortname%>.html">
             <img class="speakerslist-img img-fluid" 
@@ -15,25 +19,14 @@
             alt="Photo of <%=speaker.name%>">
           </a>
         </p>
+        
         <%-speaker.description%>
+        
       </article>
     </div>
 
     <aside class="col-md-4">
-      <article class="sidebar">
-        <h1 class="sidebar-title">Artwork on display</h1>
-        <p class="sidebar-body">
-          While you attend the conference, head over to our gallery where you can check out 
-          some of the work from our speakers.
-        </p>
-        <div class="pixgrid clearfix">
-
-          <% artworks.forEach((artwork, index) => { %>
-            <img src="/images/artwork/<%=artwork%>" alt="Artwork <%=index%>">
-          <% }) %>
-          
-        </div>
-      </article>
+      <%- include('./partials/artwork') %>
     </aside>
   </div>
 </div>
