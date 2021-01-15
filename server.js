@@ -40,6 +40,15 @@ app.locals.siteName = 'ROUX Meetups';
 // This is a middleware that allows us to use the static folder content
 app.use(express.static(path.join(__dirname, './static')));
 
+// app.get('/throw', (request, response, next) => {
+//   setTimeout(() => {
+//     /* throwing an error from an assyncronous function will break the 
+//       application
+//     */
+//     return next(new Error('something did throw'))
+//   }, 500);
+// })
+
 app.use(async (request, response, next) =>{
   try {
     // this is another way to create global variables in express

@@ -25,7 +25,10 @@ class SpeakerService {
     const data = await this.getData();
 
     // We are using map() to transform the array we get into another one
-    return data.map((speaker) => ({ name: speaker.name, shortname: speaker.shortname }));
+    return data.map((speaker) => {
+      throw new Error('Something did throw')
+      return { name: speaker.name, shortname: speaker.shortname }
+    });
   }
 
   /**
