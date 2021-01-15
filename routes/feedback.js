@@ -11,7 +11,8 @@ module.exports = ({ feedbackService }) => {
       // when the route is redirected from the post method, this will see if there are any errors
       const errors = request.session.feedback ? 
         request.session.feedback.errors : false;
-
+      const successMessage = request.session.feedback ? 
+        request.session.feedback.message : false;
       request.session.feedback = {};
 
       return response.render('layout', {
@@ -19,6 +20,7 @@ module.exports = ({ feedbackService }) => {
         template: 'feedback',
         feedbacks,
         errors,
+        successMessage
       });
     } catch (error) {
       return next(error);
@@ -43,7 +45,7 @@ module.exports = ({ feedbackService }) => {
       check('title').trim().isLength({ min: 3 }).escape().withMessage('A title is required'),
       check('message').trim().isLength({ min: 5 }).escape().withMessage('A message is required'),
     ],
-    (request, response) => {
+    async (request, response) => {
       const errors = validationResult(request);
 
       if (!errors.isEmpty()) {
@@ -53,7 +55,12 @@ module.exports = ({ feedbackService }) => {
         return response.redirect('/feedback'); // it makes sure the user cannot just press reload to submit the form again
       }
 
-      return response.send('Feedback form posted');
+      const { name, email, title, message } = request.body;
+      await feedbackService.addEntry(name, email, title, message);
+      request.session.feedback = {
+        message: 'Thank you for your feedback'
+      };
+      return response.redirect('/feedback');
     }
   );
 
