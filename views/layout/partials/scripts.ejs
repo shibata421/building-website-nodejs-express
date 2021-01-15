@@ -14,5 +14,10 @@
 </script>
 
 <!--The path to the js file needs to be absolute from now on-->
-<script src="/js/pixgrid.js">
-</script>
+<% if (locals.artwork) { %>
+    <script src="/js/pixgrid.js"></script>
+<% } %>
+
+<% if (locals.feedbacks) { %>
+    <script src="/js/feedback.js"></script>
+<% } %>

@@ -31,6 +31,7 @@ app.use(
 );
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // ejs doesn't need to be required. express finds it after you config
 app.set('view engine', 'ejs'); // view engine is the config we want to change
